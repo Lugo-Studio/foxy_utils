@@ -10,12 +10,13 @@
 
 namespace fx::flow {
   template<typename T, typename Callback>
-  auto if_opt(std::optional<T>&& option, Callback&& true_branch) -> bool
+  auto if_opt(std::optional<T>&& option, Callback&& true_branch)
+    -> decltype(std::forward<decltype(true_branch)>(true_branch)(std::forward<decltype(option.value())>(option.value())))
   {
     if (option.has_value()) {
-      std::forward<decltype(true_branch)>(true_branch)(std::forward<decltype(option.value())>(option.value()));
+      return std::forward<decltype(true_branch)>(true_branch)(std::forward<decltype(option.value())>(option.value()));
     }
-    return option.has_value();
+    return std::nullopt;
   }
   
   template<typename EnumType, typename EnumValueType, typename Callback>
