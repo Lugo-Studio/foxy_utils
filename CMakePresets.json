@@ -1,0 +1,37 @@
+﻿{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl",
+        "Boost_NO_WARN_NEW_VERSIONS": true
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "set"
+      },
+      "generator": "Visual Studio 17 2022",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "hidden": true
+    },
+    {
+      "displayName": "Debug: x64-windows",
+      "name": "x64_windows_debug",
+      "inherits": "windows-base"
+    }
+  ]
+}
