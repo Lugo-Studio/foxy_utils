@@ -1,8 +1,8 @@
 #pragma once
 
-#include <utility>
-
 #include "koyote/core/std.hpp"
+
+#include <utility>
 
 namespace fx {
   class Log {

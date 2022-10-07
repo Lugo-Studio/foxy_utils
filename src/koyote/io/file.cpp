@@ -1,8 +1,12 @@
-#include "std.hpp"
+//
+// Created by galex on 10/6/2022.
+//
+
+#include "file.hpp"
 
 #include "koyote/core/log.hpp"
 
-namespace fx {
+namespace fx::io {
   [[nodiscard]] auto read_file(
     const std::filesystem::path& file_path,
     const std::ios::fmtflags flags
@@ -13,8 +17,8 @@ namespace fx {
       buffer << file.rdbuf();
       return buffer.str();
     }
-
+    
     Log::error("File \"{}\" does not exist.", file_path.string());
     return std::nullopt;
   }
-}
+} // fx // io
