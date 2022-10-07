@@ -108,29 +108,14 @@ namespace fx {
   
   class GameLoop {
   public:
-    struct CreateInfo {
-      const double tick_rate{ 128. };
-      const u32 bail_count{ 1024U };
-      const bool& stop_flag{ false };
-      std::function<void(const Time&)> start{ [](const Time&){} };
-      std::function<void(const Time&)> tick{ [](const Time&){} };
-      std::function<void(const Time&)> update{ [](const Time&){} };
-      std::function<void(const Time&)> stop{ [](const Time&){} };
-    };
+    Time time{};
+    std::function<void(const Time&)> start{ [](const Time&){} };
+    std::function<void(const Time&)> tick{ [](const Time&){} };
+    std::function<void(const Time&)> update{ [](const Time&){} };
+    std::function<void(const Time&)> stop{ [](const Time&){} };
     
-    explicit GameLoop(const CreateInfo& game_loop);
-    ~GameLoop() = default;
-    
-    void run();
+    auto run(const bool& stop_flag) -> void;
   
-    auto operator()() -> GameLoop;
-    
-  private:
-    Time time;
-    const bool& stop_flag;
-    std::function<void(const Time&)> start_callback;
-    std::function<void(const Time&)> tick_callback;
-    std::function<void(const Time&)> update_callback;
-    std::function<void(const Time&)> stop_callback;
+    inline auto operator()(const bool& stop_flag) -> void { run(stop_flag); }
   }; // GameLoop
 } // fx

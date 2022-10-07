@@ -39,31 +39,17 @@ namespace fx {
     ++step_count_;
   }
   
-  GameLoop::GameLoop(const GameLoop::CreateInfo& game_loop):
-    time{ game_loop.tick_rate, game_loop.bail_count },
-    stop_flag{ game_loop.stop_flag },
-    start_callback{ game_loop.start },
-    tick_callback{ game_loop.tick },
-    update_callback{ game_loop.update },
-    stop_callback{ game_loop.stop } {}
-  
-  auto GameLoop::operator()() -> GameLoop
+  void GameLoop::run(const bool& stop_flag)
   {
-    run();
-    return *this;
-  }
-  
-  void GameLoop::run()
-  {
-    start_callback(time);
+    start(time);
     while (!stop_flag) {
       while (time.should_do_tick()) {
-        tick_callback(time);
+        tick(time);
         time.internal_tick();
       }
-      update_callback(time);
+      update(time);
       time.internal_update();
     }
-    stop_callback(time);
+    stop(time);
   }
 } // fx
