@@ -6,4 +6,4 @@
 	url = https://github.com/g-truc/glm.git
 [submodule "extern/uuid_v4"]
 	path = extern/uuid_v4
-	url = https://github.com/crashoz/uuid_v4.git
+	url = https://github.com/GTLugo/uuid_v4.git
