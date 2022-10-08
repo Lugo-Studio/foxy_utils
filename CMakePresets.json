@@ -10,8 +10,7 @@
       "name": "windows-base",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl",
-        "Boost_NO_WARN_NEW_VERSIONS": true
+        "CMAKE_CXX_COMPILER": "cl"
       },
       "architecture": {
         "value": "x64",
