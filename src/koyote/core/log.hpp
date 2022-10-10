@@ -46,6 +46,7 @@ namespace fx {
       }
     };
 
+    // Let's cross our fingies that the compiler will optimize out these empty functions in release mode! :)
   #ifdef FOXY_DEBUG_MODE
     #define LOGGING_FUNC_TEMPLATE_IMPL(x)\
     template<class... Args>\
