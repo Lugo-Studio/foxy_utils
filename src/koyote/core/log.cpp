@@ -44,29 +44,10 @@ namespace fx {
       logger() = spdlog::logger{name, {console_sink, file_sink}};
       logger().set_level(spdlog::level::info);
       fx::Log::set_thread_name("main");
-
-      Log::info(R"(--------------=============[])");
-      Log::info(R"(  ______ ______   ___     __ )");
-      Log::info(R"( |  ____/ __ \ \ / \ \   / / )");
-      Log::info(R"( | |__ | |  | \ V / \ \_/ /  )");
-      Log::info(R"( |  __|| |  | |> <   \   /   )");
-      Log::info(R"( | |   | |__| / . \   | |    )");
-      Log::info(R"( |_|    \____/_/ \_\  |_|    )");
-      Log::info(R"(                             )");
-      Log::info(R"(--------------=============[])");
-      Log::info("Foxy startup: Kon kon kitsune! Hi, friends!");
-      #if defined(FOXY_DEBUG_MODE) and not defined(FOXY_RELDEB_MODE)
-      Log::info("Build mode: DEBUG");
-      #else
-      Log::info("Build mode: RELEASE");
-      #endif
       #endif
     }
 
     ~Impl() {
-      #if defined(FOXY_DEBUG_MODE) or defined(FOXY_RELDEB_MODE)
-      Log::info("Foxy shutdown: Otsukon deshita! Bye bye!");
-      #endif
     }
     
     static inline void trace(const std::string_view msg) {

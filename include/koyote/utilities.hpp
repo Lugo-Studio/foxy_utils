@@ -10,4 +10,7 @@
 #include "koyote/io/byte_io.hpp"
 #include "koyote/io/byte_range.hpp"
 #include "koyote/io/file.hpp"
-#include "koyote/control_flow/ifopt.hpp"
+
+#include "koyote/control_flow/for_each.hpp"
+
+#include "koyote/types/singleton.hpp"
