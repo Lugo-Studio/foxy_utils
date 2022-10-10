@@ -114,8 +114,8 @@ namespace fx {
     std::function<void(const Time&)> update{ [](const Time&){} };
     std::function<void(const Time&)> stop{ [](const Time&){} };
     
-    auto run(const bool& stop_flag) -> void;
+    auto run(const bool& should_continue) -> void;
   
-    inline auto operator()(const bool& stop_flag) -> void { run(stop_flag); }
+    inline auto operator()(const bool& should_continue) -> void { run(should_continue); }
   }; // GameLoop
 } // fx

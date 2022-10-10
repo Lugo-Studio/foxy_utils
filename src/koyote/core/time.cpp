@@ -39,10 +39,10 @@ namespace fx {
     ++step_count_;
   }
   
-  void GameLoop::run(const bool& stop_flag)
+  void GameLoop::run(const bool& should_continue)
   {
     start(time);
-    while (!stop_flag) {
+    while (should_continue) {
       while (time.should_do_tick()) {
         tick(time);
         time.internal_tick();
