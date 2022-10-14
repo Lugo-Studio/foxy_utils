@@ -1,7 +1,7 @@
 # < Koyote Utilities (C++) >
 
 ## === Requirements ===
-Built with CMake 3.24, C++23, Visual C++ compiler, and Visual Studio 2022 generator.
+Built with C++23, MSVC 19.34, CMake 3.24, and Visual Studio 2022 generator.
 
 ## === Dependencies ===
 - GLM

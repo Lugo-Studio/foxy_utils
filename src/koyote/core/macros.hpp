@@ -14,6 +14,26 @@
 #define FOXY_LAMBDA_INS(fn, instance) [objPtr = instance](auto&&... args) { return objPtr->fn(std::forward<decltype(args)>(args)...); }
 #define FOXY_LAMBDA(fn) FOXY_LAMBDA_INS(fn, this)
 
+#ifdef __clang__
+  // CLANG ENABLE/DISABLE WARNING DEFINITION
+  #define FOXY_DISABLE_WARNINGS() _Pragma("clang diagnostic push") \
+	  _Pragma("clang diagnostic ignored \"-Wall\"")                \
+		  _Pragma("clang diagnostic ignored \"-Wextra\"")            \
+		    _Pragma("clang diagnostic ignored \"-Wtautological-compare\"")
+  #define FOXY_ENABLE_WARNINGS() _Pragma("clang diagnostic pop")
+#elif defined(__GNUC__) or defined(__GNUG__)
+  // GCC ENABLE/DISABLE WARNING DEFINITION
+  #define FOXY_DISABLE_WARNINGS() _Pragma("GCC diagnostic push") \
+    _Pragma("GCC diagnostic ignored \"-Wall\"")                \
+		  _Pragma("clang diagnostic ignored \"-Wextra\"")          \
+		    _Pragma("clang diagnostic ignored \"-Wtautological-compare\"")
+  #define FOXY_ENABLE_WARNINGS() _Pragma("GCC diagnostic pop")
+#elif defined(_MSC_VER)
+  // MSVC ENABLE/DISABLE WARNING DEFINITION
+  #define FOXY_DISABLE_WARNINGS() __pragma(warning(push, 0))
+  #define FOXY_ENABLE_WARNINGS() __pragma(warning(pop))
+#endif
+
 #if defined(_WIN32) and not defined(FOXY_DEBUG_MODE)
 #define REDIRECT_WINMAIN_TO_MAIN \
 auto main(int, char**) -> int;\
