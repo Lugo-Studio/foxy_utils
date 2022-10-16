@@ -4,6 +4,12 @@
 
 #pragma once
 
+#ifdef FOXY_ENABLE_ASSERTS
+#define FOXY_ASSERT(x, y) if (!(x)) fx::Log::fatal(y)
+#else
+#define FOXY_ASSERT(x, y)
+#endif
+
 #define MAKE_UNIQUE(x) std::make_unique<decltype(x)>(x)
 #define PIMPL(x) class x; std::unique_ptr<x>
 
@@ -14,12 +20,13 @@
 #define FOXY_LAMBDA_INS(fn, instance) [objPtr = instance](auto&&... args) { return objPtr->fn(std::forward<decltype(args)>(args)...); }
 #define FOXY_LAMBDA(fn) FOXY_LAMBDA_INS(fn, this)
 #define FOXY_ENUMERATE(x) std::views::zip(std::views::iota(0, static_cast<i32>(x.size())), x)
+#define FOXY_FWD(x) std::forward<decltype(x)>(x)
 // for (std::array arr{ 1, 2, 3, 4, 5 }; const auto & [index, element]: FOXY_ENUMERATE(arr)) {
 //
 // }
 
 #if defined(_MSC_VER)
-#define FOXY_DISABLE_WARNINGS __pragma(warning( push, 1 ))
+#define FOXY_DISABLE_WARNINGS __pragma(warning( push, 0 ))
 #define FOXY_ENABLE_WARNINGS  __pragma(warning( pop ))
 
 #define FOXY_DISABLE_WARNING_PUSH           __pragma(warning( push ))

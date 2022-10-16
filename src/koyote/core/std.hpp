@@ -1,7 +1,7 @@
 #pragma once
 
 #include "koyote/internal/includes.hpp"
-#include <uuid_v4.h>
+#include <uuid.h>
 
 namespace fx {
   using byte = std::uint8_t;
@@ -15,15 +15,36 @@ namespace fx {
   using i64 = std::int64_t;
   using u64 = std::uint64_t;
 
-  struct uuid: UUIDv4::UUID {
-    uuid(): UUID{ generate() } {}
+  struct uuid: public uuids::uuid {
+    uuid(): uuids::uuid{ generate() } {}
+    uuid(const uuid& rhs): uuids::uuid{ rhs } {}
+
   private:
-    [[nodiscard]] static auto generate() -> UUID
+    [[nodiscard]] static auto generate() -> uuids::uuid
     {
-      static UUIDv4::UUIDGenerator<std::mt19937_64> gen{};
-      return gen.getUUID();
+      static uuids::uuid_system_generator gen{};
+      return gen();
     }
   };
+  
+  // struct uuid {
+  //   uuid(): id_{ generate() } {}
+  //   uuid(const uuid& rhs): id_{ rhs.id_ } {}
+  //
+  //   [[nodiscard]] auto id() const -> const UUIDv4::UUID& { return id_; }
+  //   [[nodiscard]] auto str() const -> std::string { return id_.str(); }
+  //
+  //   [[nodiscard]] auto operator<(const uuid& rhs) const -> bool { return id_ < rhs.id_; }
+  //   [[nodiscard]] auto operator==(const uuid& rhs) const -> bool { return id_ == rhs.id_; }
+  // private:
+  //   UUIDv4::UUID id_;
+  //
+  //   [[nodiscard]] static auto generate() -> UUIDv4::UUID
+  //   {
+  //     static UUIDv4::UUIDGenerator<std::mt19937_64> gen{};
+  //     return gen.getUUID();
+  //   }
+  // };
 
   template<typename T, typename D = std::default_delete<T>>
   using unique = std::unique_ptr<T, D>;
@@ -63,3 +84,11 @@ namespace fx {
     NoCopyOrMove& operator=(NoCopyOrMove&& other) = delete;
   };
 }
+
+template<>
+struct std::hash<fx::uuid> {
+  auto operator()(const fx::uuid& uuid) const -> std::size_t
+  {
+    return std::hash<uuids::uuid>{}(uuid);
+  }
+};
