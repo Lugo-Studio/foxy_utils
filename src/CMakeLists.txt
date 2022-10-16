@@ -32,8 +32,8 @@ target_include_directories(${TARGET_NAME} PUBLIC "../include" ".")
 target_include_directories(${TARGET_NAME} SYSTEM PRIVATE "../extern/spdlog/include")
 target_link_libraries(${TARGET_NAME} PRIVATE spdlog::spdlog)
 # GLM
-target_compile_definitions(${TARGET_NAME} PUBLIC GLM_FORCE_RADIANS=1)
 target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/glm")
 target_link_libraries(${TARGET_NAME} PRIVATE glm::glm)
-# UUID_v4
-target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/uuid_v4")
+# UUID
+target_compile_definitions(${TARGET_NAME} PUBLIC UUID_SYSTEM_GENERATOR=1)
+target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/stduuid/include")
