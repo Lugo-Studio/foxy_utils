@@ -107,17 +107,18 @@ namespace fx {
      * \brief This is only necessary if you wish to enable
      * backtrace and full logging in debug mode.
      */
-    static void debug_logging_setup() {
-    #if defined(FOXY_DEBUG_MODE)
-      fx::Log::enable_backtrace(32);
-    #endif
-    #if defined(FOXY_DEBUG_MODE) and not defined(FOXY_RELEASE_MODE)
-      fx::Log::set_level_filter(fx::Log::Trace);
-    #endif
+    static void conditionally_enable_debug_backtrace(Level filter_level = Info, Level debug_filter_level = Trace) {
+      set_level_filter(filter_level);
+      #if defined(FOXY_DEBUG_MODE)
+      enable_backtrace(32);
+      #endif
+      #if defined(FOXY_DEBUG_MODE) and not defined(FOXY_RELEASE_MODE)
+      set_level_filter(debug_filter_level);
+      #endif
     }
   private:
     class Impl;
-    static fx::shared<Impl> p_impl_;
+    static shared<Impl> p_impl_;
 
     Log();
     ~Log();
