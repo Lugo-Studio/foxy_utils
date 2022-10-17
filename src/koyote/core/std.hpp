@@ -15,10 +15,13 @@ namespace fx {
   using i64  = std::int64_t;
   using u64  = std::uint64_t;
 
-  struct uuid: public uuids::uuid {
-    uuid(): uuids::uuid{ generate() } {}
-    uuid(const uuid& rhs): uuids::uuid{ rhs } {}
+  template<class T, class Tag>
+  struct strong_alias: T {
+    using T::T;
+  };
 
+  struct uuid: uuids::uuid {
+    uuid(): uuids::uuid{ generate() } {}
   private:
     [[nodiscard]] static auto generate() -> uuids::uuid
     {
@@ -26,25 +29,6 @@ namespace fx {
       return gen();
     }
   };
-  
-  // struct uuid {
-  //   uuid(): id_{ generate() } {}
-  //   uuid(const uuid& rhs): id_{ rhs.id_ } {}
-  //
-  //   [[nodiscard]] auto id() const -> const UUIDv4::UUID& { return id_; }
-  //   [[nodiscard]] auto str() const -> std::string { return id_.str(); }
-  //
-  //   [[nodiscard]] auto operator<(const uuid& rhs) const -> bool { return id_ < rhs.id_; }
-  //   [[nodiscard]] auto operator==(const uuid& rhs) const -> bool { return id_ == rhs.id_; }
-  // private:
-  //   UUIDv4::UUID id_;
-  //
-  //   [[nodiscard]] static auto generate() -> UUIDv4::UUID
-  //   {
-  //     static UUIDv4::UUIDGenerator<std::mt19937_64> gen{};
-  //     return gen.getUUID();
-  //   }
-  // };
 
   template<typename T, typename D = std::default_delete<T>>
   using unique = std::unique_ptr<T, D>;
@@ -109,10 +93,13 @@ namespace fx {
   };
 }
 
-template<>
-struct std::hash<fx::uuid> {
-  auto operator()(const fx::uuid& uuid) const -> std::size_t
-  {
-    return std::hash<uuids::uuid>{}(uuid);
-  }
+#define FOXY_UUID_HASH_IMPL(x) \
+template<>\
+struct std::hash<x> {\
+  auto operator()(const x& uuid) const noexcept -> std::size_t\
+  {\
+    return std::hash<uuids::uuid>{}(uuid);\
+  }\
 };
+
+FOXY_UUID_HASH_IMPL(fx::uuid)
