@@ -29,7 +29,7 @@ namespace fx {
   /// TODO: Create split/lap function (probably in a different class to keep this one lightweight)
   class Stopwatch {
   public:
-    Stopwatch(std::string name, bool ):
+    Stopwatch(std::string name):
       name_{ std::move(name) },
       start_{ clock_high_res::now() }
     { }
