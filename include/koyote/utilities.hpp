@@ -9,7 +9,11 @@
 
 #include "koyote/misc/event.hpp"
 #include "koyote/misc/log.hpp"
-#include "koyote/misc/time.hpp"
+
+#include "koyote/time/benchmark.hpp"
+#include "koyote/time/game_loop.hpp"
+#include "koyote/time/stopwatch.hpp"
+#include "koyote/time/time.hpp"
 
 #include "koyote/types/glm.hpp"
 #include "koyote/types/json.hpp"

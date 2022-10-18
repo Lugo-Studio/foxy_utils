@@ -1,4 +1,5 @@
-#include "koyote/misc/time.hpp"
+#include "koyote/time/time.hpp"
+#include "koyote/time/game_loop.hpp"
 
 namespace fx {
   Time::Time(double tick_rate, u32 bail_count):
