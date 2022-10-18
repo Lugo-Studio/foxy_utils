@@ -28,20 +28,28 @@ namespace fx {
     };
     
     Impl(const std::string& name, const std::filesystem::path& log_file) {
-      #if defined(FOXY_DEBUG_MODE) or defined(FOXY_RELDEB_MODE)
-      auto console_formatter = std::make_unique<spdlog::pattern_formatter>();
-      console_formatter->add_flag<ThreadNameFlag>('~').set_pattern("[ %^%4!L%$ | %T.%f ] %~ | %v");
-      auto console_sink{ std::make_shared<spdlog::sinks::stdout_color_sink_mt>() };
-      console_sink->set_level(spdlog::level::trace);
-      console_sink->set_formatter(std::move(console_formatter));
+      #if (defined(FOXY_DEBUG_MODE) or defined(FOXY_RELDEB_MODE)) or defined(FOXY_RELEASE_MODE_FILE_LOGGING)
       
       auto file_formatter = std::make_unique<spdlog::pattern_formatter>();
       file_formatter->add_flag<ThreadNameFlag>('~').set_pattern("[ %^%4!L%$ | %m-%d %T.%f ] %~ | %v");
       auto file_sink{ std::make_shared<spdlog::sinks::rotating_file_sink_mt>(log_file.string(), 2097152, 5, false) };
       file_sink->set_level(spdlog::level::trace);
       file_sink->set_formatter(std::move(file_formatter));
-
-      logger() = spdlog::logger{name, {console_sink, file_sink}};
+  
+      logger() = spdlog::logger{name, { file_sink }};
+      #endif
+      
+      #if (defined(FOXY_DEBUG_MODE) or defined(FOXY_RELDEB_MODE))
+      auto console_formatter = std::make_unique<spdlog::pattern_formatter>();
+      console_formatter->add_flag<ThreadNameFlag>('~').set_pattern("[ %^%4!L%$ | %T.%f ] %~ | %v");
+      auto console_sink{ std::make_shared<spdlog::sinks::stdout_color_sink_mt>() };
+      console_sink->set_level(spdlog::level::trace);
+      console_sink->set_formatter(std::move(console_formatter));
+      
+      logger() = spdlog::logger{name, { console_sink, file_sink }};
+      #endif
+      
+      #if (defined(FOXY_DEBUG_MODE) or defined(FOXY_RELDEB_MODE)) or defined(FOXY_RELEASE_MODE_FILE_LOGGING)
       logger().set_level(spdlog::level::info);
       fx::Log::set_thread_name("main");
       #endif

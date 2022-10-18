@@ -47,50 +47,35 @@ namespace fx {
     };
 
     // Let's cross our fingies that the compiler will optimize out these empty functions in release mode! :)
-  #ifdef FOXY_DEBUG_MODE
-    #define LOGGING_FUNC_TEMPLATE_IMPL(x)\
+  #if defined(FOXY_DEBUG_MODE) or defined(FOXY_RELEASE_MODE_FILE_LOGGING)
+    #define LOGGING_FUNC_TEMPLATE_IMPL(x) \
     template<class... Args>\
-    static inline void x ## (\
-      FormatLocation format,\
-      Args&&... args\
-    ) {\
+    static inline void x ## (FormatLocation format, Args&&... args)\
+    {\
       x ## _impl(std::vformat(format.fmt_str, std::make_format_args(args..., format.file_name(), format.line_num())));\
     }
 
     template<class... Args>
-    static inline void error(
-      FormatLocation format,
-      Args&&... args
-    ) {
+    static inline void error(FormatLocation format, Args&&... args)
+    {
       error_impl(std::vformat(format.fmt_str + " ({}:{})", std::make_format_args(args..., format.file_name(), format.line_num())));
     }
 
     template<class... Args>
-    static inline void fatal(
-      FormatLocation format,
-      Args&&... args
-    ) {
+    static inline void fatal(FormatLocation format, Args&&... args)
+    {
       fatal_impl(std::vformat(format.fmt_str + " ({}:{})", std::make_format_args(args..., format.file_name(), format.line_num())));
     }
   #else
-    #define LOGGING_FUNC_TEMPLATE_IMPL(x)\
+    #define LOGGING_FUNC_TEMPLATE_IMPL(x) \
     template<class... Args>\
-    static inline void x ## (\
-      FormatLocation format,\
-      Args&&... args\
-    ) {}
+    static inline void x ## (FormatLocation format, Args&&... args) {}
 
     template<class... Args>
-    static inline void error(
-      FormatLocation format,
-      Args&&... args
-    ) {}
+    static inline void error(FormatLocation format, Args&&... args) {}
 
     template<class... Args>
-    static inline void fatal(
-      FormatLocation format,
-      Args&&... args
-    ) {}
+    static inline void fatal(FormatLocation format, Args&&... args) {}
   #endif
 
     LOGGING_FUNC_TEMPLATE_IMPL(trace)

@@ -21,7 +21,8 @@
 #define FOXY_LAMBDA(fn) FOXY_LAMBDA_INS(fn, this)
 #define FOXY_ENUMERATE(x) std::views::zip(std::views::iota(0, static_cast<i32>(x.size())), x)
 #define FOXY_FWD(x) std::forward<decltype(x)>(x)
-// for (std::array arr{ 1, 2, 3, 4, 5 }; const auto & [index, element]: FOXY_ENUMERATE(arr)) {
+// std::array arr{ 1, 2, 3, 4, 5 };
+// for (const auto& [index, element]: FOXY_ENUMERATE(arr)) {
 //
 // }
 
@@ -68,8 +69,13 @@
 #if defined(_WIN32) and not defined(FOXY_DEBUG_MODE)
 #define REDIRECT_WINMAIN_TO_MAIN \
 auto main(int, char**) -> int;\
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {\
-  return main(__argc, __argv);\
+auto WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) -> int {\
+  try {\
+    return main(__argc, __argv);\
+  } catch (const std::exception& e) {\
+    fx::Log::fatal(e.what());\
+    return EXIT_FAILURE;\
+  }\
 }
 #else
 #define REDIRECT_WINMAIN_TO_MAIN auto __fubuki_is_cute() -> int { return 0; }
@@ -78,9 +84,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #if defined(_WIN32) and not defined(FOXY_DEBUG_MODE)
 #define REDIRECT_WINMAIN_TO_KOYOTE_MAIN \
 auto main(fx::i32, fx::i8**) -> fx::i32;\
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {\
-  return main(__argc, reinterpret_cast<std::int8_t**>(__argv));\
+auto WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) -> int { \
+  try {\
+    return main(__argc, reinterpret_cast<std::int8_t**>(__argv));\
+  } catch (const std::exception& e) {\
+    fx::Log::fatal(e.what());\
+    return EXIT_FAILURE;\
+  }\
 }
 #else
 #define REDIRECT_WINMAIN_TO_KOYOTE_MAIN auto __fubuki_is_cute() -> kyt::i32 { return 0; }
+#endif
+
+#if defined(_WIN32) and not defined(FOXY_DEBUG_MODE)
+#define FOXY_MAIN WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+#else
+#define FOXY_MAIN main(int, char**)
 #endif
