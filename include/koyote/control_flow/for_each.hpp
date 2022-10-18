@@ -5,52 +5,11 @@
 #pragma once
 
 #include "koyote/types/std.hpp"
+#include "koyote/macros.hpp"
 
 #include <optional>
 
 namespace fx::flow {
-  // template<typename T>
-  // struct if_optional {
-  //   std::function<void(T&&)> beq{ [](T&& option){} };
-  //
-  //   auto operator()(std::optional<T>&& option) -> bool
-  //   {
-  //     if (std::forward<decltype(option)>(option).has_value()) {
-  //       beq(*std::forward<decltype(option)>(option));
-  //       return true;
-  //     }
-  //
-  //     return false;
-  //   }
-  // };
-  //
-  //
-  //
-  // template<typename T>
-  // inline constexpr auto if_opt(
-  //   std::optional<T>&& option,
-  //   std::function<void(T&&)> true_branch
-  // ) -> std::tuple<decltype(*std::forward<decltype(option)>(option)), bool>
-  // {
-  //   if (std::forward<decltype(option)>(option).has_value()) {
-  //     return true;
-  //   }
-  // }
-  
-  // template<typename T, typename Callback>
-  // inline constexpr auto if_opt(
-  //   std::optional<T>&& option,
-  //   Callback&& true_branch,
-  //   std::function<decltype(std::forward<decltype(true_branch)>(true_branch)(std::forward<decltype(option.value())>(option.value())))()>&& false_branch = [] { return std::nullopt; }
-  // ) -> decltype(std::forward<decltype(true_branch)>(true_branch)(std::forward<decltype(option.value())>(option.value())))
-  // {
-  //   if (option.has_value()) {
-  //     return std::forward<decltype(true_branch)>(true_branch)(std::forward<decltype(option.value())>(option.value()));
-  //   } else {
-  //     return std::forward<decltype(false_branch)>(false_branch)();
-  //   }
-  // }
-  
   template<typename EnumType, typename EnumValueType, typename Callback>
   void for_each_enum(Callback&& callback)
   {
@@ -64,6 +23,6 @@ namespace fx::flow {
   template<typename E, typename Callback>
   void for_each_enum(Callback&& callback)
   {
-    for_each_enum<E, E>(std::forward<Callback>(callback));
+    for_each_enum<E, E>(FOXY_FWD(callback));
   }
 } // fx
