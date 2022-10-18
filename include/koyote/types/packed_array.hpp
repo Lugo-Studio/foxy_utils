@@ -1,5 +1,7 @@
 #pragma once
 
+#include "koyote/macros.hpp"
+
 namespace fx {
   template<typename Index, typename Element>
   class packed_array;
