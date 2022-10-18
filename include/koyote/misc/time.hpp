@@ -5,8 +5,8 @@
 // Flugel Framework: https://github.com/GTLugo/flugel_framework
 //
 
-#include "koyote/core/std.hpp"
-#include "koyote/core/log.hpp"
+#include "koyote/types/std.hpp"
+#include "koyote/misc/log.hpp"
 
 namespace fx {
   // duration types
@@ -19,40 +19,43 @@ namespace fx {
   // clock types
   using clock_system = std::chrono::system_clock;
   using clock_steady = std::chrono::steady_clock;
-  using clock_accurate = std::chrono::high_resolution_clock;
+  using clock_high_res = std::chrono::high_resolution_clock;
   // time point
   using time_point = clock_steady::time_point;
-  using time_point_a = clock_accurate::time_point;
+  using time_point_r = clock_high_res::time_point;
   using time_point_s = clock_system::time_point;
 
+  // Based originally on a custom stopwatch class, but eventually evolved into one similar to The Cherno's
+  /// TODO: Create split/lap function (probably in a different class to keep this one lightweight)
   class Stopwatch {
   public:
-    Stopwatch() {
-      start();
+    Stopwatch(std::string name, bool ):
+      name_{ std::move(name) },
+      start_{ clock_high_res::now() }
+    { }
+    
+    ~Stopwatch()
+    {
+      if (!stop_) {
+        stop();
+      }
     }
 
-    explicit Stopwatch(time_point time_point) {
-      start(time_point);
+    void stop()
+    {
+      stop_ = clock_high_res::now();
     }
-
-    void start() { start(clock_steady::now()); }
-
-    void start(time_point timePoint) {
-      start_ = timePoint;
-    }
-
+    
     template<class Duration>
-    [[nodiscard]] double start_time() const {
-      return Duration{(start_).time_since_epoch()}.count();
-    }
-
-    template<class Duration>
-    [[nodiscard]] double get_time_elapsed() const {
+    [[nodiscard]] auto time_elapsed() const -> double
+    {
       return Duration{(clock_steady::now() - start_)}.count();
     }
     
   private:
-    time_point start_{};
+    std::string name_;
+    time_point_r start_{};
+    std::optional<time_point_r> stop_{ std::nullopt };
   }; // Stopwatch
 
   class Time {
@@ -61,31 +64,36 @@ namespace fx {
     Time(double tick_rate = 128., u32 bail_count = 1024U);
     ~Time() = default;
 
-    [[nodiscard]] double tick_rate() const {
+    [[nodiscard]] auto tick_rate() const -> double
+    {
       return tick_rate_;
     }
 
     template<class Duration>
-    [[nodiscard]] double fixed_step() const {
+    [[nodiscard]] auto fixed_step() const -> double
+    {
       return Duration{fixed_time_step_}.count();
     }
 
     template<typename Duration>
-    [[nodiscard]] double now() const {
+    [[nodiscard]] auto now() const -> double
+    {
       return Duration{clock_steady::now().time_since_epoch()}.count();
     }
 
     template<class Duration>
-    [[nodiscard]] double delta() const {
+    [[nodiscard]] auto delta() const -> double
+    {
       return Duration{delta_}.count();
     }
 
     template<class Duration>
-    [[nodiscard]] double lag() const {
+    [[nodiscard]] auto lag() const -> double
+    {
       return Duration{lag_}.count();
     }
 
-    [[nodiscard]] bool should_do_tick() const;
+    [[nodiscard]] auto should_do_tick() const -> bool;
     
   private:
     // fixed number of ticks per second. this will be used for physics and anything else in fixed update

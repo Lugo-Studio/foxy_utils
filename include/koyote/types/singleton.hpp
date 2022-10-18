@@ -6,7 +6,7 @@
 
 #include <string_view>
 
-#include "koyote/core/log.hpp"
+#include "koyote/misc/log.hpp"
 
 namespace fx::types {
   template<typename T>

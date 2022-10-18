@@ -7,3 +7,6 @@
 [submodule "extern/stduuid"]
 	path = extern/stduuid
 	url = https://github.com/mariusbancila/stduuid.git
+[submodule "extern/json"]
+	path = extern/json
+	url = https://github.com/nlohmann/json.git

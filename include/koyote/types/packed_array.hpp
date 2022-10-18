@@ -10,15 +10,6 @@ namespace fx {
     packed_array_t() = default;
     virtual ~packed_array_t() = default;
     virtual void erase(const Index& index) = 0;
-    // template<typename Index, typename Element>
-    // inline auto as() -> shared<packed_map<Index, Element>> {
-    //   return std::static_pointer_cast<packed_map<Index, Element>>(this);
-    // };
-
-    // template<typename Index, typename Element>
-    // inline auto as() const -> shared<packed_map<Index, Element>> {
-    //   return std::static_pointer_cast<packed_map<Index, Element>>(this);
-    // };
   };
 
   template<typename Index, typename Element>

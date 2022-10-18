@@ -11,13 +11,12 @@ option(FOXY_RELEASE_MODE_FILE_LOGGING "Log output to file even in release mode" 
 # LIBRARY
 # ===================================================
 set(SOURCE_FILES
-    "koyote/core/std.cpp"
-    "koyote/core/log.cpp"
-    "koyote/core/event.cpp"
-    "koyote/core/time.cpp"
-    "koyote/io/file.cpp"
+    "koyote/log.cpp"
+    "koyote/time.cpp"
+    "koyote/file.cpp"
     )
 add_library(${TARGET_NAME} STATIC ${SOURCE_FILES})
+add_library(${TARGET_NAME}::utils ALIAS ${TARGET_NAME})
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_23)
 target_compile_options(${TARGET_NAME} PRIVATE "/bigobj" "/std:c++latest" "/experimental:module")
 target_compile_definitions(${TARGET_NAME}
@@ -31,7 +30,7 @@ target_compile_definitions(${TARGET_NAME}
 if(FOXY_RELEASE_MODE_FILE_LOGGING)
   target_compile_definitions(${TARGET_NAME} PUBLIC FOXY_RELEASE_MODE_FILE_LOGGING=1)
 endif()
-target_precompile_headers(${TARGET_NAME} PUBLIC "koyote/internal/pch.hpp")
+target_precompile_headers(${TARGET_NAME} PUBLIC "koyote/pch.hpp")
 target_include_directories(${TARGET_NAME} PUBLIC "../include" ".")
 
 # ===================================================
@@ -46,3 +45,6 @@ target_link_libraries(${TARGET_NAME} PRIVATE glm::glm)
 # UUID
 target_compile_definitions(${TARGET_NAME} PUBLIC UUID_SYSTEM_GENERATOR=1)
 target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/stduuid/include")
+# JSON
+target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/json/include")
+target_link_libraries(${TARGET_NAME} PUBLIC nlohmann_json::nlohmann_json)

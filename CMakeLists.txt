@@ -5,6 +5,7 @@ add_subdirectory(extern/glm)
 set(SPDLOG_ENABLE_PCH ON)
 set(SPDLOG_USE_STD_FORMAT ON)
 add_subdirectory(extern/spdlog)
+add_subdirectory(extern/json)
 
 add_subdirectory(src)
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
