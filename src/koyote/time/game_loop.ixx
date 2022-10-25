@@ -7,7 +7,7 @@ export module koyote_time:game_loop;
 import :time;
 
 namespace fx {
-  class GameLoop {
+  export class GameLoop {
   public:
     Time time{};
     std::function<void(const Time&)> start{ [](const Time&){} };

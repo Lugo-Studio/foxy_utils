@@ -3,15 +3,15 @@ module;
 #include <std/core.hpp>
 #include <std/filesystem.hpp>
 #include "koyote/helpers.hpp"
+#include "koyote/json.hpp"
 
 export module koyote_time:benchmark;
 
 import :time;
-import koyote_io;
 import koyote_types;
 
 namespace fx {
-  class ProfilerSession {
+  export class ProfilerSession {
   public:
     ProfilerSession(std::string name):
       name_{ std::move(name) }
@@ -28,7 +28,7 @@ namespace fx {
     std::string name_;
   };
   
-  class Profiler {
+  export class Profiler {
   public:
     Profiler(std::string name, std::filesystem::path out_path = "tmp/logs/profiler.json"):
       out_path_{ std::move(out_path) },

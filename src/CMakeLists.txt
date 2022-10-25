@@ -16,7 +16,6 @@ set(SOURCE_FILES
     "koyote/io/io.ixx"
     "koyote/io/byte.ixx"
     "koyote/io/file.ixx"
-    "koyote/io/json.ixx"
     "koyote/control_flow/flow.ixx"
     "koyote/control_flow/for_each.ixx"
     "koyote/ranges/ranges.ixx"
