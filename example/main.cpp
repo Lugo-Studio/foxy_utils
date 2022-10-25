@@ -1,4 +1,7 @@
-#include "koyote/utilities.hpp"
+#include <std/core.hpp>
+#include <std/filesystem.hpp>
+
+import koyote_io;
 
 int main(const int argc, char** argv)
 {
@@ -13,14 +16,16 @@ int main(const int argc, char** argv)
   if (const auto& bytes{ fx::io::read_bytes(in_path) }) {
     std::default_random_engine eng;
     eng.seed(std::strtol(argv[4], nullptr, 10));
-    std::uniform_int_distribution dist{ 0, 127 };
+    std::uniform_int_distribution<int32_t> dist{ 0, 127 };
     
     auto _{
-      *bytes | std::views::transform([&](const uint8_t byte) {
-               const uint8_t rand{ static_cast<uint8_t>(dist(eng)) };
-               return (byte + (std::strcmp(argv[1], "encrypt") ? rand : 128 - rand)) % 128;
-             })
-             | fx::ranges::write_bytes(out_path)
+      (*bytes) | std::views::transform([&](const std::uint8_t byte) {
+                 const std::uint8_t rand{ static_cast<std::uint8_t>(dist(eng)) };
+                 return (byte + (std::strcmp(argv[1], "encrypt") ? rand : 128 - rand)) % 128;
+               })
+               | fx::ranges::write_bytes(out_path)
     };
   }
+  
+  std::cout << argv[1] << "ed file \"" << argv[2] << "\" into \"" << argv[3] << '\"';
 }

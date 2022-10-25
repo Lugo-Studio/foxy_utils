@@ -11,14 +11,25 @@ option(FOXY_RELEASE_MODE_FILE_LOGGING "Log output to file even in release mode" 
 # LIBRARY
 # ===================================================
 set(SOURCE_FILES
-    "koyote/log.cpp"
-    "koyote/time.cpp"
-    "koyote/file.cpp"
+    "koyote/log.ixx"
+    "koyote/event.ixx"
+    "koyote/io/io.ixx"
+    "koyote/io/byte.ixx"
+    "koyote/io/file.ixx"
+    "koyote/io/json.ixx"
+    "koyote/control_flow/flow.ixx"
+    "koyote/control_flow/for_each.ixx"
+    "koyote/ranges/ranges.ixx"
+    "koyote/ranges/contains.ixx"
+    "koyote/types/types.ixx"
+    "koyote/types/singleton.ixx"
+    "koyote/types/packed_array.ixx"
+    "koyote/types/reference_count.ixx"
     )
 add_library(${TARGET_NAME} STATIC ${SOURCE_FILES})
 add_library(${TARGET_NAME}::utils ALIAS ${TARGET_NAME})
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_23)
-target_compile_options(${TARGET_NAME} PRIVATE "/bigobj" "/std:c++latest" "/experimental:module")
+target_compile_options(${TARGET_NAME} PRIVATE "/std:c++latest" "/experimental:module")
 target_compile_definitions(${TARGET_NAME}
   PRIVATE _CRT_SECURE_NO_WARNINGS=1
          WIN32_LEAN_AND_MEAN=1
@@ -30,18 +41,19 @@ target_compile_definitions(${TARGET_NAME}
 if(FOXY_RELEASE_MODE_FILE_LOGGING)
   target_compile_definitions(${TARGET_NAME} PUBLIC FOXY_RELEASE_MODE_FILE_LOGGING=1)
 endif()
-target_precompile_headers(${TARGET_NAME} PUBLIC "koyote/pch.hpp")
 target_include_directories(${TARGET_NAME} PUBLIC "../include" ".")
 
 # ===================================================
 # DEPENDENCIES
 # ===================================================
+# STD
+target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/std_library/include")
 # SPDLOG
 target_include_directories(${TARGET_NAME} SYSTEM PRIVATE "../extern/spdlog/include")
 target_link_libraries(${TARGET_NAME} PRIVATE spdlog::spdlog)
 # GLM
 target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/glm")
-target_link_libraries(${TARGET_NAME} PRIVATE glm::glm)
+target_link_libraries(${TARGET_NAME} PUBLIC glm::glm)
 # UUID
 target_compile_definitions(${TARGET_NAME} PUBLIC UUID_SYSTEM_GENERATOR=1)
 target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/stduuid/include")
