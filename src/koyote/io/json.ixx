@@ -5,5 +5,5 @@ module;
 export module koyote_io:json;
 
 namespace fx {
-  using json = nlohmann::json;
+  export using json = nlohmann::json;
 }
