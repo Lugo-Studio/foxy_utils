@@ -26,6 +26,6 @@ int main(const int argc, char** argv)
                })
              | fx::ranges::write_bytes(out_path);
   
-    fx::log.info(R"({}ed file "{}" info "{}")", argv[1], argv[2], argv[3]);
+    fx::log.info(R"({}ed file "{}" into "{}")", argv[1], argv[2], argv[3]);
   }
 }
