@@ -2,11 +2,13 @@
 #include <std/filesystem.hpp>
 
 import koyote_io;
+import koyote_log;
 
 int main(const int argc, char** argv)
 {
   if (argc != 5) {
-    std::cerr << "Usage: [encrypt|decrypt] <input_file> <output_file> <encryption_seed_int32>\n";
+    fx::log.info("Usage: [encrypt|decrypt] <input_file> <output_file> <encryption_seed_int32>");
+    // std::cerr << "";
     return EXIT_FAILURE;
   }
 
@@ -18,13 +20,12 @@ int main(const int argc, char** argv)
     eng.seed(std::strtol(argv[4], nullptr, 10));
     std::uniform_int_distribution<int32_t> dist{ 0, 127 };
   
-  
     (*bytes) | std::views::transform([&](const std::uint8_t byte) {
                  const std::uint8_t rand{ static_cast<std::uint8_t>(dist(eng)) };
                  return (byte + (std::strcmp(argv[1], "encrypt") ? rand : 128 - rand)) % 128;
                })
              | fx::ranges::write_bytes(out_path);
   
-    std::cout << argv[1] << "ed file \"" << argv[2] << "\" into \"" << argv[3] << '\"';
+    fx::log.info(R"({}ed file "{}" info "{}")", argv[1], argv[2], argv[3]);
   }
 }

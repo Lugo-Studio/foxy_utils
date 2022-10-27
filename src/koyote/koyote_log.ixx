@@ -97,7 +97,7 @@ namespace fx {
       
       #if (defined(FOXY_DEBUG_MODE) or defined(FOXY_RELDEB_MODE))
       auto console_formatter = std::make_unique<spdlog::pattern_formatter>();
-      console_formatter->add_flag<ThreadNameFlag>('~').set_pattern("[%~][ %^%4!L%$ @ %T.%f ] // %v");
+      console_formatter->add_flag<ThreadNameFlag>('~').set_pattern("[%~| %^%4!L%$ | %T.%f ] // %v");
       auto console_sink{ std::make_shared<spdlog::sinks::stdout_color_sink_mt>() };
       console_sink->set_level(spdlog::level::trace);
       console_sink->set_formatter(std::move(console_formatter));
