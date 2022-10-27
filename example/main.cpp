@@ -8,7 +8,6 @@ int main(const int argc, char** argv)
 {
   if (argc != 5) {
     fx::log.info("Usage: [encrypt|decrypt] <input_file> <output_file> <encryption_seed_int32>");
-    // std::cerr << "";
     return EXIT_FAILURE;
   }
 
