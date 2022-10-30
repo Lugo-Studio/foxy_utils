@@ -1,4 +1,4 @@
-export module koyote_io;
+export module foxy_io;
 
 export import :byte;
 export import :file;

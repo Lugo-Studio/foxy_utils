@@ -73,7 +73,7 @@ auto WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
   try {\
     return main(__argc, __argv);\
   } catch (const std::exception& e) {\
-    fx::Log::fatal(e.what());\
+    fx::log.fatal(e.what());\
     return EXIT_FAILURE;\
   }\
 }
@@ -81,8 +81,7 @@ auto WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 #define REDIRECT_WINMAIN_TO_MAIN auto __fubuki_is_cute() -> int { return 0; }
 #endif
 
-#if defined(_WIN32) and not defined(FOXY_DEBUG_MODE)
-#define FOXY_MAIN WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
-#else
-#define FOXY_MAIN main(int, char**)
-#endif
+#define FOXY_MAIN auto f_main(const std::vector<std::string>&) -> int;\
+auto main(int argc, char* argv[]) -> int {\
+  return f_main({argv, argv + argc});\
+}

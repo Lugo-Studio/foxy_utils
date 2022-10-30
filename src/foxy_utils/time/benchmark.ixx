@@ -1,14 +1,14 @@
 module;
 
 #include <std/core.hpp>
+#include <std/memory.hpp>
 #include <std/filesystem.hpp>
-#include "koyote/helpers.hpp"
-#include "koyote/json.hpp"
+#include "foxy_utils/json.hpp"
 
-export module koyote_time:benchmark;
+export module foxy_time:benchmark;
 
 import :time;
-import koyote_types;
+import foxy_types;
 
 namespace fx {
   export class ProfilerSession {
@@ -47,7 +47,7 @@ namespace fx {
   private:
     json json_file_;
     std::filesystem::path out_path_;
-    unique<ProfilerSession> session_;
+    std::unique_ptr<ProfilerSession> session_;
     std::uint32_t profile_count_;
   };
 }

@@ -2,7 +2,7 @@ module;
 
 #include <std/core.hpp>
 
-export module koyote_ranges:contains;
+export module foxy_ranges:contains;
 
 namespace fx::ranges {
   template<std::ranges::range R, typename T>

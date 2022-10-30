@@ -2,7 +2,7 @@ module;
 
 #include <std/core.hpp>
 
-export module koyote_time:stopwatch;
+export module foxy_time:stopwatch;
 
 import :time;
 

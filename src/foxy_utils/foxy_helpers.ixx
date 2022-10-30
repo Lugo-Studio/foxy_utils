@@ -1,31 +1,35 @@
-#pragma once
+module;
 
 #include <std/core.hpp>
 #include <std/memory.hpp>
 
+export module foxy_helpers;
+
 namespace fx {
   // strongly-typed type alias
-  template<class T, class Tag>
+  export template<class T, class Tag>
   struct strong_alias: T {
     using T::T;
   };
   
   // ============================= TYPEDEFS ============================= //
   // |                                                                  | //
-  template<typename T, typename D = std::default_delete<T>>
+  export template<typename T, typename D = std::default_delete<T>>
   using unique = std::unique_ptr<T, D>;
-
-  template<typename T>
+  
+  export template<typename T>
   using shared = std::shared_ptr<T>;
-
-  template<typename T>
+  
+  export template<typename T>
   using weak = std::weak_ptr<T>;
+  
+  export using arg_list = std::vector<std::string>;
   // |                                                                  | //
   // ============================= TYPEDEFS ============================= //
   
   // ============================= CONCEPTS ============================= //
   // |                                                                  | //
-  template<class T, class U>
+  export template<class T, class U>
   concept Derives = std::is_base_of_v<U, T>;
   // |                                                                  | //
   // ============================= CONCEPTS ============================= //
@@ -33,14 +37,14 @@ namespace fx {
   // ============================= STRUCTS  ============================= //
   // |                                                                  | //
   namespace types {
-    class Copyable {
+    export class Copyable {
     public:
       Copyable() = default;
       Copyable(const Copyable& other) = default;
       Copyable& operator=(const Copyable& other) = default;
     };
   
-    class MoveOnly {
+    export class MoveOnly {
     public:
       MoveOnly() = default;
       MoveOnly(MoveOnly&& other) = default;
@@ -50,7 +54,7 @@ namespace fx {
       MoveOnly& operator=(const MoveOnly& other) = delete;
     };
   
-    class NoCopyOrMove {
+    export class NoCopyOrMove {
     public:
       NoCopyOrMove() = default;
       NoCopyOrMove(const NoCopyOrMove& other) = delete;
@@ -62,3 +66,4 @@ namespace fx {
   // |                                                                  | //
   // ============================= STRUCTS  ============================= //
 }
+

@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.24)
-project(koyote)
+project(foxy_utils)
 
 add_subdirectory(extern/glm)
 set(SPDLOG_ENABLE_PCH ON)
-set(SPDLOG_USE_STD_FORMAT ON)
+#set(SPDLOG_USE_STD_FORMAT ON)
+set(SPDLOG_WCHAR_SUPPORT ON)
 add_subdirectory(extern/spdlog)
 add_subdirectory(extern/json)
 

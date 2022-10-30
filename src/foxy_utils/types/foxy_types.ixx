@@ -1,4 +1,4 @@
-export module koyote_types;
+export module foxy_types;
 
 export import :singleton;
 export import :reference_count;

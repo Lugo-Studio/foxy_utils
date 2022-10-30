@@ -1,9 +1,9 @@
 module;
 
-#include "koyote/macros.hpp"
+#include "foxy_utils/macros.hpp"
 #include <std/core.hpp>
 
-export module koyote_event;
+export module foxy_event;
 
 namespace fx {
   export template<typename... Args>

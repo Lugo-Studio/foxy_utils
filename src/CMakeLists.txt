@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
-set(TARGET_NAME "koyote")
+set(TARGET_NAME "foxy_utils")
+set(TARGET_NAME_ALIAS "foxy::utils")
 message(STATUS "Configuring ${PROJECT_NAME} sub-project: ${TARGET_NAME}")
 
 # ===================================================
@@ -11,22 +12,25 @@ option(FOXY_RELEASE_MODE_FILE_LOGGING "Log output to file even in release mode" 
 # LIBRARY
 # ===================================================
 set(SOURCE_FILES
-    "koyote/koyote_log.ixx"
-    "koyote/koyote_event.ixx"
-    "koyote/io/koyote_io.ixx"
-    "koyote/io/byte.ixx"
-    "koyote/io/file.ixx"
-    "koyote/control_flow/koyote_flow.ixx"
-    "koyote/control_flow/for_each.ixx"
-    "koyote/ranges/koyote_ranges.ixx"
-    "koyote/ranges/contains.ixx"
-    "koyote/types/koyote_types.ixx"
-    "koyote/types/singleton.ixx"
-    "koyote/types/packed_array.ixx"
-    "koyote/types/reference_count.ixx"
+    "foxy_utils/foxy_main.ixx"
+    "foxy_utils/foxy_helpers.ixx"
+    "foxy_utils/foxy_log.ixx"
+    "foxy_utils/foxy_event.ixx"
+    "foxy_utils/foxy_error.ixx"
+    "foxy_utils/io/foxy_io.ixx"
+    "foxy_utils/io/byte.ixx"
+    "foxy_utils/io/file.ixx"
+    "foxy_utils/control_flow/foxy_flow.ixx"
+    "foxy_utils/control_flow/for_each.ixx"
+    "foxy_utils/ranges/foxy_ranges.ixx"
+    "foxy_utils/ranges/contains.ixx"
+    "foxy_utils/types/foxy_types.ixx"
+    "foxy_utils/types/singleton.ixx"
+    "foxy_utils/types/packed_array.ixx"
+    "foxy_utils/types/reference_count.ixx"
     )
 add_library(${TARGET_NAME} STATIC ${SOURCE_FILES})
-add_library(${TARGET_NAME}::utils ALIAS ${TARGET_NAME})
+add_library(${TARGET_NAME_ALIAS} ALIAS ${TARGET_NAME})
 target_compile_features(${TARGET_NAME} PRIVATE cxx_std_23)
 target_compile_options(${TARGET_NAME} PRIVATE "/std:c++latest" "/experimental:module")
 target_compile_definitions(${TARGET_NAME}

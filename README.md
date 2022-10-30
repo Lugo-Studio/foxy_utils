@@ -1,4 +1,4 @@
-# < Koyote Utilities (C++) >
+# < Foxy Utilities (C++) >
 Experimental utility library using C++20 modules.
 
 ## === Requirements ===

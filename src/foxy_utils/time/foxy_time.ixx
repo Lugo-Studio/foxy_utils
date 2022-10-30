@@ -1,4 +1,4 @@
-export module koyote_time;
+export module foxy_time;
 
 export import :time;
 export import :stopwatch;

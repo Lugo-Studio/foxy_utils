@@ -1,9 +1,9 @@
 module;
 
+#include "foxy_utils/macros.hpp"
 #include <std/core.hpp>
-#include "koyote/macros.hpp"
 
-export module koyote_flow:for_each;
+export module foxy_flow:for_each;
 
 namespace fx::flow {
   export template<typename EnumType, typename EnumValueType, typename Callback>

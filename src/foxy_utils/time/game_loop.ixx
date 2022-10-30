@@ -2,7 +2,7 @@ module;
 
 #include <std/core.hpp>
 
-export module koyote_time:game_loop;
+export module foxy_time:game_loop;
 
 import :time;
 

@@ -1,11 +1,11 @@
 module;
 
-#include "koyote/helpers.hpp"
 #include <std/core.hpp>
 
-export module koyote_types:reference_count;
+export module foxy_types:reference_count;
 
-import koyote_log;
+import foxy_log;
+import foxy_helpers;
 
 namespace fx {
   // https://www.acodersjourney.com/implementing-smart-pointer-using-reference-counting/

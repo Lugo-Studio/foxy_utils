@@ -1,11 +1,11 @@
 module;
 
-#include "koyote/helpers.hpp"
 #include <std/core.hpp>
 
-export module koyote_types:singleton;
+export module foxy_types:singleton;
 
-import koyote_log;
+import foxy_log;
+import foxy_helpers;
 
 namespace fx::types {
   template<typename T>

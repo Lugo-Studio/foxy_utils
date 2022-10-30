@@ -1,12 +1,12 @@
 module;
 
-#include "koyote/macros.hpp"
-#include "koyote/helpers.hpp"
+#include "foxy_utils/macros.hpp"
 #include <std/core.hpp>
 
-export module koyote_types:packed_array;
+export module foxy_types:packed_array;
 
-import koyote_log;
+import foxy_log;
+import foxy_helpers;
 
 namespace fx {
   template<typename Index, typename Element>

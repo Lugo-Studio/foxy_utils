@@ -2,9 +2,9 @@ module;
 
 #include <std/core.hpp>
 
-export module koyote_time:time;
+export module foxy_time:time;
 
-import koyote_log;
+import foxy_log;
 
 namespace fx {
   // duration types
@@ -66,7 +66,7 @@ namespace fx {
     [[nodiscard]] auto should_do_tick() const -> bool
     {
       if (step_count_ >= bail_count_) {
-        fx::log.warn("Struggling to catch up with physics rate.");
+        fx::warn("Struggling to catch up with physics rate.");
       }
   
       return lag_.count() >= fixed_time_step_.count() && step_count_ < bail_count_;
