@@ -1,9 +1,6 @@
-module;
-
-#include <std/core.hpp>
-
 export module foxy_time:game_loop;
 
+import std.core;
 import :time;
 
 namespace fx {

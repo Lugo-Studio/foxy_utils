@@ -1,6 +1,6 @@
 export module foxy_time;
 
-export import :time;
-export import :stopwatch;
+export import :benchmark; // TODO: Fix json
 export import :game_loop;
-export import :benchmark;
+export import :stopwatch;
+export import :time;

@@ -1,11 +1,11 @@
 module;
 
 #include "foxy_utils/macros.hpp"
-#include <std/core.hpp>
-#include <std/filesystem.hpp>
 
 export module foxy_io:byte;
 
+import std.core;
+import std.filesystem;
 import foxy_log;
 import foxy_error;
 

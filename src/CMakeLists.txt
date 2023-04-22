@@ -12,11 +12,15 @@ option(FOXY_RELEASE_MODE_FILE_LOGGING "Log output to file even in release mode" 
 # LIBRARY
 # ===================================================
 set(SOURCE_FILES
-    "foxy_utils/foxy_main.ixx"
-    "foxy_utils/foxy_helpers.ixx"
-    "foxy_utils/foxy_log.ixx"
-    "foxy_utils/foxy_event.ixx"
-    "foxy_utils/foxy_error.ixx"
+    "foxy_utils/types/foxy_types.ixx"
+    "foxy_utils/types/packed_map.ixx"
+    "foxy_utils/types/reference_count.ixx"
+    "foxy_utils/types/singleton.ixx"
+    "foxy_utils/time/foxy_time.ixx"
+    "foxy_utils/time/stopwatch.ixx"
+    "foxy_utils/time/game_loop.ixx"
+    "foxy_utils/time/benchmark.ixx"
+    "foxy_utils/time/time.ixx"
     "foxy_utils/io/foxy_io.ixx"
     "foxy_utils/io/byte.ixx"
     "foxy_utils/io/file.ixx"
@@ -24,10 +28,11 @@ set(SOURCE_FILES
     "foxy_utils/control_flow/for_each.ixx"
     "foxy_utils/ranges/foxy_ranges.ixx"
     "foxy_utils/ranges/contains.ixx"
-    "foxy_utils/types/foxy_types.ixx"
-    "foxy_utils/types/singleton.ixx"
-    "foxy_utils/types/packed_array.ixx"
-    "foxy_utils/types/reference_count.ixx"
+    "foxy_utils/foxy_log.ixx"
+    "foxy_utils/foxy_helpers.ixx"
+    "foxy_utils/foxy_event.ixx"
+    "foxy_utils/foxy_error.ixx"
+    "foxy_utils/foxy_main.ixx"
     )
 add_library(${TARGET_NAME} STATIC ${SOURCE_FILES})
 add_library(${TARGET_NAME_ALIAS} ALIAS ${TARGET_NAME})
@@ -61,5 +66,5 @@ target_link_libraries(${TARGET_NAME} PUBLIC glm::glm)
 target_compile_definitions(${TARGET_NAME} PUBLIC UUID_SYSTEM_GENERATOR=1)
 target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/stduuid/include")
 # JSON
-target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/json/include")
+target_include_directories(${TARGET_NAME} SYSTEM PUBLIC "../extern/json/single_include")
 target_link_libraries(${TARGET_NAME} PUBLIC nlohmann_json::nlohmann_json)

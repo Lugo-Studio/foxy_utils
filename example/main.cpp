@@ -1,16 +1,17 @@
-#include <std/core.hpp>
-#include <std/filesystem.hpp>
-#include <std/threading.hpp>
+import std.core;
+import std.filesystem;
+import std.threading;
 
 import foxy_log;
 import foxy_helpers;
 import foxy_io;
+import foxy_types;
 
-auto main(const int32_t argc, char* argv[]) -> int32_t
+auto main(const int argc, char* argv[]) -> int
 {
   if (argc != 5) {
-    fx::error("Usage: [encrypt|decrypt] <input_file> <output_file> <encryption_seed_int32>");
-    return EXIT_FAILURE;
+    fx::error("Usage: [encrypt|decrypt] <input_file> <output_file> <encryption_seed_int32>", "");
+    return 1;
   }
   fx::set_logging_level(fx::Log::Trace);
   fx::enable_backtrace(8);
@@ -32,6 +33,15 @@ auto main(const int32_t argc, char* argv[]) -> int32_t
     );
   
     fx::info(R"({}ed file "{}" into "{}")", argv[1], in_path.string(), out_path.string());
+  
+    fx::packed_map<std::string, int> pm{
+      { "a", 1 },
+      { "b", 2 },
+      { "c", 3 },
+    };
+    for (auto& [k, v]: *pm) {
+      fx::info("{}: {}", k, v);
+    }
     
     std::array threads{
       std::jthread{
@@ -52,36 +62,6 @@ auto main(const int32_t argc, char* argv[]) -> int32_t
           fx::warn("2");
           fx::error("2");
           fx::fatal_continue("2");
-        }
-      },
-      std::jthread{
-        [] {
-          fx::trace("3");
-          fx::debug("3");
-          fx::info("3");
-          fx::warn("3");
-          fx::error("3");
-          fx::fatal_continue("3");
-        }
-      },
-      std::jthread{
-        [] {
-          fx::trace("4");
-          fx::debug("4");
-          fx::info("4");
-          fx::warn("4");
-          fx::error("4");
-          fx::fatal_continue("4");
-        }
-      },
-      std::jthread{
-        [] {
-          fx::trace("5");
-          fx::debug("5");
-          fx::info("5");
-          fx::warn("5");
-          fx::error("5");
-          fx::fatal_continue("5");
         }
       }
     };

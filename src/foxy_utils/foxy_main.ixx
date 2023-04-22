@@ -1,9 +1,6 @@
-module;
-
-#include <std/core.hpp>
-
 export module foxy_main;
 
+import std.core;
 import foxy_helpers;
 
 namespace fx {

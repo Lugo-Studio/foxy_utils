@@ -1,6 +1,6 @@
 module;
 
-#include <std/core.hpp>
+#include "std/core.hpp"
 
 export module foxy_time:time;
 

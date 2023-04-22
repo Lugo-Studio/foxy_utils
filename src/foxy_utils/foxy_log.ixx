@@ -3,7 +3,6 @@ module;
 #include <std/core.hpp>
 #include <std/filesystem.hpp>
 #include <std/threading.hpp>
-#include <utility>
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
@@ -15,44 +14,6 @@ export module foxy_log;
 
 namespace fx {
   export void terminate_handler();
-  
-  // export struct Emoji {
-  // public:
-  //   enum Value {
-  //     Pass,
-  //     Fail,
-  //     Trace,
-  //     Debug,
-  //     Info,
-  //     Warn,
-  //     Error,
-  //     Fatal,
-  //   };
-  //
-  //   [[nodiscard]] static constexpr auto icon(Value value) -> std::string
-  //   {
-  //     switch (value) {
-  //       case Value::Pass:
-  //         return "✅";
-  //       case Value::Fail:
-  //         return "❌";
-  //       case Value::Trace:
-  //         return "🔍";
-  //       case Value::Debug:
-  //         return "🕷️";
-  //       case Value::Info:
-  //         return "ℹ️";
-  //       case Value::Warn:
-  //         return "⚠️";
-  //       case Value::Error:
-  //         return "💢";
-  //       case Value::Fatal:
-  //         return "🛑";
-  //       default:
-  //         return "";
-  //     }
-  //   }
-  // };
   
   export class Log {
   public:
@@ -107,12 +68,9 @@ namespace fx {
     class ThreadNameFlag final : public spdlog::custom_flag_formatter {
     public:
       void format(const spdlog::details::log_msg& msg, const std::tm&, spdlog::memory_buf_t& dest) override {
-        using std::to_string;
-        
-        const auto thread_id{ msg.thread_id };
-        std::string thread_name{ std::format("{:^10.10}", std::format("{:#010x}", thread_id)) };
-        if (names_.contains(thread_id)) {
-          thread_name = std::format("{:^10.10}", names_.at(thread_id));
+        std::string thread_name{ std::format("{:^10.10}", std::format("{:#010x}", msg.thread_id)) };
+        if (names_.contains(msg.thread_id)) {
+          thread_name = std::format("{:^10.10}", names_.at(msg.thread_id));
         }
         dest.append(thread_name.data(), thread_name.data() + thread_name.size());
       }
@@ -122,41 +80,6 @@ namespace fx {
         return spdlog::details::make_unique<ThreadNameFlag>();
       }
     };
-    
-    // class EmojiLevelFlag final : public spdlog::custom_flag_formatter {
-    // public:
-    //   void format(const spdlog::details::log_msg& msg, const std::tm&, spdlog::memory_buf_t& dest) override {
-    //     std::string emoji{};
-    //     switch (msg.level) {
-    //       case spdlog::level::trace:
-    //         emoji = Emoji::icon(Emoji::Trace);
-    //         break;
-    //       case spdlog::level::debug:
-    //         emoji = Emoji::icon(Emoji::Debug);
-    //         break;
-    //       case spdlog::level::info:
-    //         emoji = Emoji::icon(Emoji::Info);
-    //         break;
-    //       case spdlog::level::warn:
-    //         emoji = Emoji::icon(Emoji::Warn);
-    //         break;
-    //       case spdlog::level::err:
-    //         emoji = Emoji::icon(Emoji::Error);
-    //         break;
-    //       case spdlog::level::critical:
-    //         emoji = Emoji::icon(Emoji::Fatal);
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //     dest.append(emoji.data(), emoji.data() + emoji.size());
-    //   }
-    //
-    //   [[nodiscard]] auto clone() const -> std::unique_ptr<custom_flag_formatter> override
-    //   {
-    //     return spdlog::details::make_unique<EmojiLevelFlag>();
-    //   }
-    // };
     
     Log(const std::string& name, const std::filesystem::path& log_file);
     
